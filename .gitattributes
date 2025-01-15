@@ -1,2 +1,117 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="OIP.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cole Palmer Tamagotchi</title>
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+<div id="tamagotchi-game">
+  <header>
+    <h1>Cole Palmer Tamagotchi</h1>
+    <div class="status-bar">
+      <div class="status">
+        <label>Energy</label>
+        <div class="bar">
+          <div class="progress" id="energy-bar"></div>
+        </div>
+      </div>
+      <div class="status">
+        <label>Goals</label>
+        <div class="bar">
+          <div class="progress" id="goal-bar"></div>
+        </div>
+      </div>
+      <div class="status">
+        <label>Food</label>
+        <div class="bar">
+          <div class="progress" id="hunger-bar"></div>
+        </div>
+      </div>
+      <div class="status">
+        <label>Fit</label>
+        <div class="bar">
+          <div class="progress" id="fit-bar"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="tamagotchi">
+      <div id="cole-palmer">🥶</div>
+    </div>
+  </main>
+  <footer>
+    <div class="controls">
+      <button onclick="train()">Train</button>
+      <button onclick="score()">Score Goal</button>
+      <button onclick="rest()">Rest</button>
+      <button onclick="eat()">Eat</button>
+    </div>
+  </footer>
+</div>
+<script>
+  let energy = 100;
+  let goals = 0;
+  let hungry = 50;
+  let fit = 100;
+
+  function updateBars() {
+    document.getElementById('energy-bar').style.width = `${energy}%`;
+    document.getElementById('goal-bar').style.width = `${goals}%`;
+    document.getElementById('hunger-bar').style.width = `${hungry}%`;
+    document.getElementById('fit-bar').style.width = `${fit}%`;
+  }
+
+  const colePalmer = document.getElementById('cole-palmer');
+  if (energy <= 20) {
+    colePalmer.textContent = '😴'; // Cole Palmer slaapt
+  } else if (goals >= 80) {
+    colePalmer.textContent = '🎉'; // Cole Palmer viert feest
+  } else {
+    colePalmer.textContent = '🥶'; // Cole Palmer speelt voetbal
+  }
+
+  function train() {
+    energy = Math.max(0, energy - 6);
+    fit = Math.min(100, fit + 5);
+    hungry = Math.max(0, hungry - 3);
+    updateBars();
+  }
+
+  function score() {
+    goals = Math.min(100, goals + 5);
+    energy = Math.max(0, energy - 3);
+    updateBars();
+  }
+
+  function rest() {
+    energy = Math.min(100, energy + 10);
+    goals = Math.max(0, goals - 1);
+    fit = Math.max(0, fit - 5);
+    updateBars();
+  }
+
+  function eat() {
+    hungry = Math.min(100, hungry + 7);
+    energy = Math.min(100, energy + 3);
+    goals = Math.max(0, goals - 2);
+    updateBars();
+  }
+
+  // Automatische veranderingen
+  setInterval(() => {
+    energy = Math.max(0, energy - 1);
+    goals = Math.max(0, goals - 1);
+    hungry = Math.max(0, hungry - 2);
+    fit = Math.max(0, fit - 3);
+    updateBars();
+  }, 10000);
+
+  // Initialiseer de balken bij het laden van de pagina
+  updateBars();
+</script>
+</body>
+</html>
